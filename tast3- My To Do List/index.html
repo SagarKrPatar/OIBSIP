@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My To-Do App</title>
+  <style>
+    /* Add some basic styling */
+    body {
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      text-align: center;
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .task-input {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+    .task-list {
+      list-style-type: none;
+      padding: 0;
+    }
+    .task {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+    }
+    .task input[type="checkbox"] {
+      margin-right: 10px;
+    }
+    .completed-task {
+      text-decoration: line-through;
+      color: #999;
+    }
+  </style>
+</head>
+<body bgcolor="lightblue">
+  <div class="container">
+    <h1>To-Do App</h1>
+    <input id="taskInput" class="task-input" type="text" placeholder="Enter a task">
+    <h2>Pending Tasks</h2>
+    <ul id="pendingTasks" class="task-list"></ul>
+    <h2>Completed Tasks</h2>
+    <ul id="completedTasks" class="task-list"></ul>
+  </div>
+
+  <script>
+    // Get the input and task list elements
+    const taskInput = document.getElementById('taskInput');
+    const pendingTasksList = document.getElementById('pendingTasks');
+    const completedTasksList = document.getElementById('completedTasks');
+
+    // Add event listener to capture the task input
+    taskInput.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        const task = taskInput.value;
+        if (task) {
+          addTask(task);
+          taskInput.value = '';
+        }
+      }
+    });
+
+    // Function to add a new task
+    function addTask(task) {
+      const listItem = document.createElement('li');
+      listItem.className = 'task';
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.addEventListener('change', function() {
+        if (checkbox.checked) {
+          completeTask(listItem);
+        } else {
+          uncompleteTask(listItem);
+        }
+      });
+      const taskText = document.createElement('span');
+      taskText.textContent = task;
+      listItem.appendChild(checkbox);
+      listItem.appendChild(taskText);
+      pendingTasksList.appendChild(listItem);
+    }
+
+    // Function to mark a task as completed
+    function completeTask(listItem) {
+      listItem.classList.add('completed-task');
+      completedTasksList.appendChild(listItem);
+    }
+
+    // Function to mark a completed task as pending
+    function uncompleteTask(listItem) {
+      listItem.classList.remove('completed-task');
+      pendingTasksList.appendChild(listItem);
+    }
+  </script>
+</body>
+</html>
